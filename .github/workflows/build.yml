@@ -1,0 +1,45 @@
+name: Build RelicAltar + Resourcepack
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Plugin bauen
+        run: mvn -B clean package
+
+      - name: Resourcepack zippen
+        run: |
+          cp target/RelicAltar-*.jar RelicAltar.jar
+          (cd resourcepack && zip -r ../ResourcePack-ALLES.zip .)
+          echo "PACK_SHA1=$(sha1sum ResourcePack-ALLES.zip | cut -d' ' -f1)" >> "$GITHUB_ENV"
+
+      - name: Release veroeffentlichen
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Build ${{ github.run_number }}
+          body: |
+            **Dateien**
+            - `RelicAltar.jar` -> in den `plugins`-Ordner des Servers
+            - `ResourcePack-ALLES.zip` -> ein Pack fuer alles (ACI-Kristalle + animierte Sense + Schockwelle)
+
+            **SHA-1:** `${{ env.PACK_SHA1 }}`
+          files: |
+            RelicAltar.jar
+            ResourcePack-ALLES.zip
