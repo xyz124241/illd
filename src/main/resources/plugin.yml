@@ -1,0 +1,21 @@
+name: RelicAltar
+version: 2.0.0
+main: de.relicaltar.RelicAltarPlugin
+api-version: '26.2'
+softdepend: [ACI]
+description: ItemLock + Relic-Altar + Sense, verbunden mit ACI
+commands:
+  lock:
+    description: Menue zum Sperren/Freigeben von Items
+    usage: /lock [list|reload]
+    aliases: [itemlock, il, sperre]
+    permission: relicaltar.admin
+  relic:
+    description: Altar- und Relikt-Verwaltung
+    usage: /relic [give|list|reset|reload|removealtar]
+    aliases: [altar]
+    permission: relicaltar.admin
+permissions:
+  relicaltar.admin:
+    description: Items sperren, Altar-Rezepte und Craft-Limits verwalten
+    default: op

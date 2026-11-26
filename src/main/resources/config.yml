@@ -1,0 +1,47 @@
+# ---------------------------------------------------------------- Item-Sperre
+# true = gesperrte Items werden zusaetzlich aus Inventaren, Endertruhen und geoeffneten Kisten geloescht.
+remove-from-inventories: false
+# Custom-Items (ACI, Sense, Altar-Items ...) werden NIE gesperrt, auch wenn ihr Basis-Material gesperrt ist.
+protect-custom-items: true
+
+# ---------------------------------------------------------------- Altar
+altar:
+  block: OBSIDIAN                 # echtes Block-Material unter dem Modell
+  use-custom-model: true          # item_model relic:altar (braucht das Resourcepack)
+  gui-texture: true               # eigene Altar-GUI-Textur (braucht das Resourcepack), sonst normaler Titel
+  drop-delay-seconds: 300         # so lange schwebt das Item ueber dem Altar (300 = 5 Minuten)
+  leak-coordinates: true          # Koordinaten beim Craft-Start an ALLE Spieler senden
+  messages:
+    started: "&5&l✦ &dEin neues Relikt wird geschmiedet bei &f{x} {y} {z} &7({world}) &8- &7Fertig in &f{minutes} min"
+    dropped: "&5&l✦ &dNew Relic has been crafted at &f{x} {y} {z} &7({world}) &8- &d{item}&d liegt am Altar!"
+  # Craft-Rezept fuer den Altar selbst (normale Werkbank)
+  recipe:
+    enabled: true
+    shape: ["ODO", "ONO", "OOO"]
+    ingredients:
+      O: OBSIDIAN
+      D: DIAMOND_BLOCK
+      N: NETHER_STAR
+  # Natuerliche Altare in neu generierten Chunks
+  generation:
+    enabled: true
+    chance-per-chunk: 0.004       # 0.004 = ca. jeder 250. neue Chunk
+    min-distance: 300             # Mindestabstand zwischen zwei Altaren (Bloecke)
+    worlds: [world]
+
+# ---------------------------------------------------------------- Sense
+sense:
+  use-custom-model: true
+  smash-multiplier: 1.0           # Mace-Fallschaden-Bonus: 1.0 = wie die echte Mace
+  shield-cooldown-ticks: 100      # Schild-Sperre nach Treffer (100 = 5 Sek., wie Axt)
+  smash-knockback: true
+  shockwave-animation: true       # braucht das Resourcepack, sonst false
+  shockwave-particles: true
+  shockwave-size: 6.0
+
+# Optional: Resourcepack selbst senden (normalerweise sendet ACI das Pack, dann hier false lassen)
+resource-pack:
+  send-on-join: false
+  url: ""
+  sha1: ""
+  prompt: "&7Bitte das Resourcepack laden!"
